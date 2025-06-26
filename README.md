@@ -257,5 +257,8 @@ Q1. Perform string analysis on the "DirectX.dll" sample that resides in the "/ho
   - strings /home/htb-student/Samples/YARASigma/DirectX.dll | grep -iE '[a-zA-Z0-9_\-\.]+\.dll'
 - Open the YARA rule
   - cat /home/htb-student/Rules/yara/apt_apt17_mal_sep17_1.yar
-- Modify the '$s4', and run the rule until the rule is triggered
+- Modify the '$s4' from one of the .dll
+- Run the rule until the rule is triggered
+  - yara /home/htb-student/Rules/yara/apt_apt17_mal_sep17_1.yar /home/htb-student/Samples/YARASigma
+- It should show: APT17_Malware_Oct17_1 /home/htb-student/Samples/YARASigma/DirectX.dll
 - Answer is: TSMSISrv.dll
