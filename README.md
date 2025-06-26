@@ -62,3 +62,47 @@ Importance of YARA and Sigma Rules
 - IOC Identification
   - Both rule types help detect IOCs (e.g., IPs, hashes, domains, filenames).
   - Helps quickly respond to threats and limit attacker dwell time.
+
+## YARA and Rules
+### Notes
+Overview
+- **What is YARA?**
+  - A pattern-matching tool and rule format used to identify and classify files based on specific content or characteristics.
+- **Primary Use Cases**
+  - Detection and classification of malware.
+    - Identify malware samples using signatures, behaviors, or file properties.
+    - Useful in detecting malicious files and analyzing memory dumps in forensic investigations.
+  - Analysis and identification of suspicious files.
+    - Categorize files based on attributes such as: file type, format, version, metadata, packers, or other identifiers
+    - Especially helpful in malware research and large-scale forensic investigations.
+  - Spotting IOCs.
+    - Detect known IOCs such as: filenames, registry keys and network indicators
+    - Facilitates identification of breaches or ongoing attacks.
+  - Memory forensics and threat hunting.
+    - Conduct environment-wide scans for: hidden threats or remnants of previous infections
+    - Reduces reliance on reactive alerts.
+  - Community-Driven Rule Sharing
+    - Leverage shared YARA rule sets from the global cybersecurity community.
+    - Helps maintain up-to-date detection capabilities.
+  - Create Custom Security Solutions
+    - Combine YARA rules with: static/dynamic analysis, sandboxing and behavior monitoring
+    - Builds stronger, layered detection mechanisms.
+  - Custom YARA Rules/Signatures
+    - Tailor detection rules for specific organizational needs.
+    - Deploy within tools like antivirus or EDR solutions.
+    - Detect targeted threats unique to your infrastructure or industry.
+  - Incident Response
+    - Quickly search memory or files for relevant artifacts during investigations.
+    - Helps define the scope and impact of incidents.
+- **YARA Rules**
+  - Written in a specific syntax.
+  - Can include: strings, regular expressions and Boolean logic
+  - Supports both textual and binary pattern matching.
+- **Application Method**
+  - Scans files or directories to match defined patterns.
+  - Triggers alerts when conditions are met.
+  - Can be integrated into automated security workflows.
+- **Key Benefits for SOC Analysts**
+  - Enables precise and complex detections.
+  - Ideal for malware analysis and forensic investigations.
+  - Highly flexible and widely supported in the cybersecurity community.
