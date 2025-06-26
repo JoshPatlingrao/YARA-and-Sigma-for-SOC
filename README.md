@@ -131,4 +131,4 @@ How Yara Works
 
 YARA Rule Structure
 ![YARA_Rules3](https://github.com/user-attachments/assets/62f0e9cf-2bba-45a3-8da6-1dfbcb991d0b)
-![YARA_Rules3](https://github.com/user-attachments/assets/62f0e9cf-2bba-45a3-8da6-1dfbcb991d0b)
+
