@@ -146,10 +146,10 @@ Rule Breakdown:
 - Rule Body: contains the patterns or indicators to be matched within the files. This is where the actual detection logic is defined.
 - Rule Conditions: define the context or characteristics of the files to be matched. Conditions can be based on file properties, strings, or other indicators. Conditions are specified within the condition section.
   - E.g.
-  - 'all of them'
-    - It means that all the strings defined in the rule must be present for the rule to trigger a match
-  - filesize < 100KB and (uint16(0) == 0x5A4D or uint16(0) == 0x4D5A)
-    - File must be less than 100 kilobytes (KB)
-    - The first 2 bytes of the file must be either 0x5A4D (ASCII MZ) or 0x4D5A (ASCII ZM), by using uint16(0)
-      - uint16: indicates the data type to be extracted, which is a 16-bit unsigned integer (2 bytes).
-      - (0): number represents where in the file to start reading, '0' means at the very beginning
+    - 'all of them'
+      - It means that all the strings defined in the rule must be present for the rule to trigger a match
+    - filesize < 100KB and (uint16(0) == 0x5A4D or uint16(0) == 0x4D5A)
+      - File must be less than 100 kilobytes (KB)
+      - The first 2 bytes of the file must be either 0x5A4D (ASCII MZ) or 0x4D5A (ASCII ZM), by using uint16(0)
+        - uint16: indicates the data type to be extracted, which is a 16-bit unsigned integer (2 bytes).
+        - (0): number represents where in the file to start reading, '0' means at the very beginning
