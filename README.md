@@ -153,3 +153,109 @@ Rule Breakdown:
       - The first 2 bytes of the file must be either 0x5A4D (ASCII MZ) or 0x4D5A (ASCII ZM), by using uint16(0)
         - uint16: indicates the data type to be extracted, which is a 16-bit unsigned integer (2 bytes).
         - (0): number represents where in the file to start reading, '0' means at the very beginning
+
+## Developing YARA Rules
+### Notes
+- Conduct a string analysis on the malware sample
+  - strings svchost.exe
+- File is packed using the UPX (Ultimate Packer for eXecutables)
+  - Incorporate UPX-related strings to formulate a basic YARA rule targeting samples packed via UPX
+    - E.g. $string_1 = "UPX0", $string_2 = "UPX1", $string_3 = "UPX2"
+      - $string_1 = "UPX0": Matches the string UPX0 within the file, etc.
+- The UPX_packed_executable rule scans for the strings UPX0, UPX1, and UPX2 inside a file
+  - If rule finds all three strings, it raises an alert, hinting that the file might be packed with the UPX packer
+  - Useful when on the lookout for executables that have undergone compression or obfuscation using the UPX method
+
+Developing a YARA Rule Through yarGen
+- Conduct a string analysis on the malware sample
+  - strings dharma_sample.exe
+- Can spot 'C:\crysis\Release\PDB\payload.pdb'
+- Run yarGen, an automatic YARA rule generator
+  - Has the ability to churn out YARA rules based on strings found in malicious files while sidestepping strings common in benign software
+  - Comes equipped with a vast database of goodware strings and opcodes
+- Install yarGen
+  - Download the latest release from the release section
+  - Install all dependencies with 'pip install -r requirements.txt'
+  - Run 'python yarGen.py --update' to automatically download the built-in databases. They will be saved into the './dbs' subfolder (Download: 913 MB).
+  - See help with python yarGen.py --help for more information on the command line parameters.
+- Run 'python3 yarGen.py -m /home/htb-student/temp -o htb_sample.yar'
+  - yarGen.py: The Python script used to generate YARA rules from sample files.
+  - -m /home/htb-student/temp: specifies the input/source directory, where malware or suspicious samples are stored for analysis.
+  - -o htb_sample.yar: defines the output file name, the resulting YARA rules will be saved as htb_sample.yar.
+- Check the rules
+  - cat htb_sample.yar
+- Run YARA with the new rule
+  - yara htb_sample.yar /home/htb-student/Samples/YARASigma
+- Will show multiple .exe files that triggered the rule
+
+Manually Developing a YARA Rule
+- Develop rule on a specific variation of the ZoxPNG RAT used by APT17
+  - A sample named legit.exe
+  - A post from Intezer (https://intezer.com/blog/research/evidence-aurora-operation-still-active-part-2-more-ties-uncovered-between-ccleaner-hack-chinese-hackers-2/)
+  - String analysis
+  - Imphash
+  - Common sample file size
+- Run string analysis
+  - strings legit.exe
+- Use the hashes mentioned in Intezer's post to identify common sample sizes
+  - There are no related samples that are bigger than 200KB.
+    - https://www.hybrid-analysis.com/sample/ee362a8161bd442073775363bf5fa1305abac2ce39b903d63df0d7121ba60550
+- The sample's Imphash can be calculated as follows, using the imphash_calc.py script
+- Check the YARA rule for this variation of ZoxPNG
+  - apt_apt17_mal_sep17_2.yar
+    - YARA Rule Breakdown
+      - Rule Imports
+        - import "pe"
+          - Imports the PE module (Portable Executable).
+          - Adds the ability to inspect Windows executable (PE) files in detail.
+          - Useful for precise detection in Windows malware.
+      - Rule Meta Section
+        - description: Describes the rule’s purpose (e.g., detect APT17 malware).
+        - license: Indicates the license terms for using the rule.
+        - author: Rule created by Florian Roth (Nextron Systems).
+        - reference: Link to more info on APT17 or the rule’s background.
+        - date: Date of creation or last update: October 3, 2017.
+        - hash1, hash2, hash3: Sample hashes of related malware used to build the rule.
+      - Rule Body (Strings Section)
+        - Contains malware indicators in string format.
+        - Two categories:
+          - $x* strings: Likely unique or rare indicators.
+          - $s* strings: Possibly general or supporting indicators.
+      - Rule Condition (Detection Logic)
+        - uint16(0) == 0x5a4d: Ensures file starts with MZ — a Windows executable.
+        - filesize < 200KB: Limits scanning to files smaller than 200 KB.
+        - pe.imphash() == "414bbd566b700ea021cfae3ad8f4d9b9": Matches a specific import hash, helping to identify similar malware behavior.
+        - 1 of ($x*): At least one $x string must match.
+        - 6 of them: At least six strings total (from both $x and $s) must be found.
+
+YARA Rule Development Resources
+- Official Documentation
+  - Most authoritative and comprehensive source.
+  - Includes syntax, modules, examples, and rule structuring techniques.
+  - https://yara.readthedocs.io/
+- Kaspersky Guide
+  - Offers practical insights and best practices for writing effective and optimized YARA rules.
+  - Good for learning how rules are used in real-world threat detection.
+  - https://www.slideshare.net/KasperskyLabGlobal/upping-the-apt-hunting-game-learn-the-best-yara-practices-from-kaspersky
+- yarGen Blog Series by Florian Roth
+  - A 3-part blog post series on using yarGen to build YARA rules effectively:
+    - Part 1: Introduction and basics
+      - https://www.nextron-systems.com/2015/02/16/write-simple-sound-yara-rules/
+    - Part 2: Pattern extraction, cleaning rules
+      - https://www.nextron-systems.com/2015/10/17/how-to-write-simple-but-sound-yara-rules-part-2/
+    - Part 3: Advanced adjustments and optimization
+      - https://www.nextron-systems.com/2016/04/15/how-to-write-simple-but-sound-yara-rules-part-3/
+- yarGen Tool Overview
+  - yarGen automates the extraction of unique patterns from malware samples.
+  - It generates draft YARA rules based on these patterns.
+  - The generated rules should be manually reviewed for refinement and effectiveness.
+  - It strikes a balance between automation and analyst expertise.
+
+### Walkthrough
+Q1. Perform string analysis on the "DirectX.dll" sample that resides in the "/home/htb-student/Samples/YARASigma" directory of this section's target. Then, study the "apt_apt17_mal_sep17_1.yar" YARA rule that resides in the "/home/htb-student/Rules/yara" directory and replace "X.dll" with the correct DLL name to ensure the rule will identify "DirectX.dll". Enter the correct DLL name as your answer. Answer format: _.dll
+- Run Strings with grep to narrow down the '.dll' mentions since there's too much data for the shell
+  - strings /home/htb-student/Samples/YARASigma/DirectX.dll | grep -iE '[a-zA-Z0-9_\-\.]+\.dll'
+- Open the YARA rule
+  - cat /home/htb-student/Rules/yara/apt_apt17_mal_sep17_1.yar
+- Modify the '$s4', and run the rule until the rule is triggered
+- Answer is: TSMSISrv.dll
