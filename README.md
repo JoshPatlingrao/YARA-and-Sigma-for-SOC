@@ -1,4 +1,4 @@
-# YARA-and-Sigma-for-SOC
+![image](https://github.com/user-attachments/assets/b827592f-614b-4bab-bc42-635ed6cfe276)![image](https://github.com/user-attachments/assets/b827592f-614b-4bab-bc42-635ed6cfe276)# YARA-and-Sigma-for-SOC
 
 ## Intro
 ### Notes
@@ -65,6 +65,8 @@ Importance of YARA and Sigma Rules
 
 ## YARA and Rules
 ### Notes
+
+
 Overview
 - **What is YARA?**
   - A pattern-matching tool and rule format used to identify and classify files based on specific content or characteristics.
@@ -106,3 +108,27 @@ Overview
   - Enables precise and complex detections.
   - Ideal for malware analysis and forensic investigations.
   - Highly flexible and widely supported in the cybersecurity community.
+
+How Yara Works
+- Set of YARA Rules
+  - Created by security analysts.
+  - Define suspicious patterns or indicators such as: strings, byte sequences and regular expressions
+  - Stored in .yar or .yara files for reusability.
+- Set of Files for Scanning
+  - Input files can be: executables, documents, scripts, memory images or captured network traffic
+  - Files are scanned to detect matches with rule-defined patterns.
+- YARA Scan Engine
+  - Core engine that performs the matching process.
+  - Uses YARA modules — internal components that enhance detection through efficient scanning techniques.
+- Scanning and Matching Process
+  - Engine scans each file byte-by-byte.
+  - Applies string matching, regex matching, and binary pattern matching.
+  - Compares file contents against the rules for matches.
+- Detection of Matches
+  - If a file matches a rule’s conditions, it is marked as detected.
+  - The engine logs details like: matched rule name, file path and offset (location) of the match within the file
+  - Results can be used for alerts, further analysis, or incident response.
+
+YARA Rule Structure
+![YARA_Rules3](https://github.com/user-attachments/assets/62f0e9cf-2bba-45a3-8da6-1dfbcb991d0b)
+![YARA_Rules3](https://github.com/user-attachments/assets/62f0e9cf-2bba-45a3-8da6-1dfbcb991d0b)
