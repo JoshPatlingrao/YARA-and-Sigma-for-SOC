@@ -133,3 +133,23 @@ YARA Rule Structure
 
 ![YARA_Rules3](https://github.com/user-attachments/assets/62f0e9cf-2bba-45a3-8da6-1dfbcb991d0b)
 
+- Each rule in YARA starts with 'rule' keyword, foolowe dby an 'identifier'
+  - 'identifier': case sensitive, first character can't be a digit, can't exceed 128 characters
+  - 'rule': is a keyword, reserved for a specific use
+
+Rule Breakdown:
+- Rule Header: provides metadata and identifies the rule. Typically includes:
+  - Rule name: A descriptive name for the rule.
+  - Rule tags: Optional tags or labels to categorize the rule.
+  - Rule metadata: Additional information such as author, description, and creation date.
+- Rule Meta: the definition of additional metadata for the rule. Can include information about the rule's author, references, version, etc.
+- Rule Body: contains the patterns or indicators to be matched within the files. This is where the actual detection logic is defined.
+- Rule Conditions: define the context or characteristics of the files to be matched. Conditions can be based on file properties, strings, or other indicators. Conditions are specified within the condition section.
+  - E.g.
+  - 'all of them'
+    - It means that all the strings defined in the rule must be present for the rule to trigger a match
+  - filesize < 100KB and (uint16(0) == 0x5A4D or uint16(0) == 0x4D5A)
+    - File must be less than 100 kilobytes (KB)
+    - The first 2 bytes of the file must be either 0x5A4D (ASCII MZ) or 0x4D5A (ASCII ZM), by using uint16(0)
+      - uint16: indicates the data type to be extracted, which is a 16-bit unsigned integer (2 bytes).
+      - (0): number represents where in the file to start reading, '0' means at the very beginning
