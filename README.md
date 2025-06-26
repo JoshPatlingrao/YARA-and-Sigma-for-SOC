@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/b827592f-614b-4bab-bc42-635ed6cfe276)![image](https://github.com/user-attachments/assets/b827592f-614b-4bab-bc42-635ed6cfe276)# YARA-and-Sigma-for-SOC
+# YARA-and-Sigma-for-SOC
 
 ## Intro
 ### Notes
