@@ -1,1 +1,64 @@
 # YARA-and-Sigma-for-SOC
+
+## Intro
+### Notes
+- YARA and Sigma are critical tools for SOC analysts (Security Operations Center).
+- They enhance threat detection and incident response capabilities.
+
+Key Benefits
+- Improved threat detection
+- Efficient log analysis
+- Malware detection and classification
+- IOC identification
+- Collaboration and rule sharing
+- Customization and integration with other security tools
+
+YARA vs. Sigma
+- YARA:
+  - Best suited for file and memory analysis
+  - Great at pattern matching
+- Sigma:
+  - Tailored for log analysis
+  - Works well with SIEM systems
+ 
+How it Works
+- Use detection rules based on conditional logic:
+  - Applied to logs (Sigma) or files/memory (YARA)
+  - Detects suspicious activities or known patterns
+
+Standardization & Community Use
+- Both follow standard rule formats
+- Designed to facilitate rule creation and sharing across the cybersecurity community
+
+Importance of YARA and Sigma Rules
+- Enhanced Threat Detection
+  - Custom detection rules allow SOC analysts to identify patterns, behaviors, or indicators linked to threats.
+  - Analysts can proactively detect and respond to incidents.
+  - YARA Rule Rources:
+    - YARA Malware Rules – Yara-Rules (https://github.com/Yara-Rules/rules/tree/master/malware)
+    - Open-Source YARA Rules – MikeSxrs (https://github.com/mikesxrs/Open-Source-YARA-rules/tree/master)
+  - Sigma Rule Sources:
+    - Sigma Rules – SigmaHQ (https://github.com/SigmaHQ/sigma/tree/master/rules)
+    - Joe Security Sigma Rules (https://github.com/joesecurity/sigma-rules)
+    - SIGMA Detection Rules – mdecrevoisier (https://github.com/mdecrevoisier/SIGMA-detection-rules)
+- Efficient Log Analysis
+  - Sigma rules are designed for filtering and correlating logs from various sources.
+  - Reduces noise and highlights security-relevant events.
+  - Supports faster, focused investigations.
+  - Tool Example: Chainsaw (https://github.com/WithSecureLabs/chainsaw) — applies Sigma rules to Windows Event Logs.
+- Collaboration and Standardization
+  - YARA and Sigma use standardized formats, making rule sharing and collaboration easier.
+  - Helps the community develop and share best practices and threat intelligence.
+  - Shared rule examples:
+    - DFIR YARA Rules (https://github.com/The-DFIR-Report/Yara-Rules)
+    - DFIR Sigma Rules (https://github.com/The-DFIR-Report/Sigma-Rules)
+- Integration with Security Tools
+  - Compatible with SIEMs, EDRs, log analysis tools, and IR platforms.
+  - Allows for automation and enrichment of alerts.
+  - Tool Example: Uncoder.io (https://uncoder.io/) — converts Sigma rules into SIEM/XDR-ready queries.
+- Malware Detection and Classification
+  - YARA rules can be used to define malware signatures and detect specific traits or behaviors.
+  - Aids in classifying and mitigating malware quickly.
+- IOC Identification
+  - Both rule types help detect IOCs (e.g., IPs, hashes, domains, filenames).
+  - Helps quickly respond to threats and limit attacker dwell time.
