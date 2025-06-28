@@ -410,3 +410,98 @@ Q1. Study the following resource https://blogs.vmware.com/security/2022/09/threa
 - Only 1 will trigger the rule.
 - When it does, both of the hits shown will have the same 'process'
 - Answer is: @WanaDecryptor@
+
+## Hunting Evil with YARA (Web)
+### Notes
+What Is Unpac.Me?
+- A specialized tool for malware unpacking.
+- Designed to help analysts analyze and extract behavior or indicators from packed malware samples.
+
+Key Features & Benefits
+- YARA Integration
+  - Allows you to run your own YARA rules against Unpac.Me's malware sample database.
+- Access to a Valuable Dataset
+  - Provides free access to a large collection of real-world malware samples.
+  - Especially valuable since commercial malware datasets are often restricted or expensive.
+- Ideal for:
+  - SOC analysts doing threat detection or reverse engineering.
+  - Malware researchers looking to test rules or study unpacking behavior.
+
+Why?
+- Bridges the gap for those without access to commercial tools or samples.
+- A powerful platform to test, validate, and refine YARA rules in real malware environments.
+
+How?
+- Register for zero-cost access and hop into the platform.
+- Head over to Yara Hunt and choose New Hunt.
+- Enter the YARA rule.
+- First hit Validate and then Scan.
+- Scan the results. Take a quick glance at our example, the system hustled through all malware submissions in a couple of minutes, spotting 1 match.
+
+## Sigma and Sigma Rules
+### Notes
+What Is Sigma?
+- A generic, platform-independent format for writing detection rules.
+- Written in YAML format.
+- Used to describe log-based detection rules for SIEMs and log analysis tool
+
+Purpose and Use
+- Helps SOC analysts detect threats by analyzing log data from sources like: firewalls, IDS/IPS, EDRs, endpoint and server logs
+- Rules define conditions and patterns that trigger alerts on suspicious behavior.
+
+Key Features
+- Portability: Write once, use across many SIEMs (like Splunk, Elasticsearch, Sentinel, etc.).
+- Shareability: Enables easy rule sharing across teams and organizations.
+- Customizable: Analysts can tailor rules for specific use cases.
+- Supports Detection as Code: Automates creation, testing, and deployment of detection rules.
+
+Integration Benefits
+- Can be converted into SIEM-specific queries using tools like sigmac.
+- Useful for integrating Indicators of Compromise (IOCs) into automated detection systems.
+
+Sigma Usage
+- Universal Log Analytics Tool
+  - Write once, deploy anywhere: Sigma rules can be converted to work with multiple SIEM/log tools (e.g., Splunk, Elastic, Sentinel).
+  - Eliminates redundancy: Avoids writing detection logic repeatedly for different platforms.
+- Community-Driven Rule Sharing
+  - Access to shared knowledge: Leverage publicly contributed rules from the Sigma community.
+  - Constant updates: Stay current with new detection techniques and emerging threats.
+- Incident Response
+  - Faster investigations: Use Sigma rules to quickly scan logs for IOCs and suspicious patterns.
+  - Focused analysis: Helps narrow down events during an active incident.
+- Proactive Threat Hunting
+  - Hunt using Sigma patterns: Apply specific detection logic to logs to uncover hidden threats or anomalies.
+  - Enhances visibility: Supports hypothesis-driven and indicator-based hunting.
+- Integration with Automation Tools
+  - Compatible with SOAR: Sigma rules can be converted and integrated into Security Orchestration, Automation, and Response systems.
+  - Triggers automated actions: Enables auto-responses based on defined detections.
+- Customization for Your Environment
+  - Environment-specific tuning: Rules can be customized for your org’s architecture, systems, and known threats.
+  - Better relevance: Improves detection accuracy and reduces false positives.
+- Gap Identification
+  - Compare with community baselines: Identify detection gaps by comparing your rule set with community/shared rules.
+  - Prioritize improvements: Focus detection development where coverage is weakest.
+
+How?
+- Unified Detection Format
+  - Purpose: Sigma provides a standard way to define detection rules for logs.
+  - Problem Solved: Replaces scattered, proprietary rule formats with a single, open, structured YAML format.
+- YAML-Based Rule Structure
+  - Each Sigma rule contains:
+    - title: Name of the rule.
+    - description: What the rule detects.
+    - logsource: Specifies the type of logs (e.g., Windows, Sysmon).
+    - detection: The actual pattern or logic to be matched.
+- Convertibility Is the Key
+  - Sigma is platform-agnostic: It doesn’t run natively in SIEM tools.
+  - Instead, it must be converted into SIEM-compatible query language
+- Sigma Converter (sigmac)
+  - Old standard tool: sigmac converts Sigma rules to specific formats (e.g., ElasticSearch DSL, Splunk SPL, QRadar AQL).
+  - Supported platforms: Works with many SIEM/log tools, allowing “write once, use everywhere.”
+- pySigma (Modern Replacement)
+  - New standard: pySigma is the modern framework for rule translation and tooling.
+  - Why it matters: sigmac is now considered outdated — use pySigma for up-to-date, actively maintained conversions.
+- Bottom Line
+  - Sigma rules describe what to look for in logs.
+  - A converter (like pySigma) translates that logic into a format your SIEM or log tool understands.
+  - This streamlines detection rule development and allows easy sharing and re-use across environments.
