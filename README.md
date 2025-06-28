@@ -262,3 +262,7 @@ Q1. Perform string analysis on the "DirectX.dll" sample that resides in the "/ho
   - yara /home/htb-student/Rules/yara/apt_apt17_mal_sep17_1.yar /home/htb-student/Samples/YARASigma
 - It should show: APT17_Malware_Oct17_1 /home/htb-student/Samples/YARASigma/DirectX.dll
 - Answer is: TSMSISrv.dll
+
+## Hunting Evil with YARA (Windows)
+### Notes
+Hunting for Malicious Executables on Disk with YARA
