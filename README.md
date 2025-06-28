@@ -265,4 +265,90 @@ Q1. Perform string analysis on the "DirectX.dll" sample that resides in the "/ho
 
 ## Hunting Evil with YARA (Windows)
 ### Notes
-Hunting for Malicious Executables on Disk with YARA
+Hunting for Evil Within ETW Data with YARA
+What is ETW?
+- ETW (Event Tracing for Windows) is a, general-purpose, high-speed tracing facility built into the Windows OS
+- It uses kernel-level buffering and logging to trace events from user-mode applications and kernel-mode device drivers
+
+ETW Components
+- Controllers
+  - Start/stop trace sessions
+  - Enable/disable providers for a session
+- Providers
+  - Generate and send events to the ETW system
+- Consumers
+  - Subscribe to and receive specific events
+  - Used for processing or analyzing the event data
+
+Useful ETW Providers for Threat Detection
+- Process and Execution Monitoring
+  - Microsoft-Windows-Kernel-Process
+    - Monitors: Process creation/termination
+    - Detects: Process injection, hollowing, malware/APT behavior
+  - Microsoft-Windows-DotNETRuntime
+    - Monitors: .NET application execution
+    - Detects: Malicious .NET assemblies, exploitation of .NET vulnerabilities
+  - Microsoft-Windows-PowerShell
+    - Monitors: PowerShell script execution
+    - Detects: Suspicious/malicious scripts, script block logging activity
+- File and Registry Monitoring
+  - Microsoft-Windows-Kernel-File
+    - Monitors: File access and modifications
+    - Detects: Unauthorized access, ransomware behavior, critical file changes
+  - Microsoft-Windows-Kernel-Registry
+    - Monitors: Registry operations
+    - Detects: Persistence techniques, malware installations, config changes
+- Network Monitoring
+  - Microsoft-Windows-Kernel-Network
+    - Monitors: Network-level activity
+    - Detects: C2 communication, unauthorized connections, exfiltration attempts
+  - Microsoft-Windows-SMBClient / SMBServer
+    - Monitors: SMB file sharing and communication
+    - Detects: Lateral movement, unusual SMB traffic
+  - Microsoft-Windows-DNS-Client
+    - Monitors: DNS client queries
+    - Detects: DNS tunneling, suspicious DNS requests
+  - OpenSSH
+    - Monitors: SSH sessions
+    - Detects: Brute force attacks, failed authentications
+  - Microsoft-Windows-VPN-Client
+    - Monitors: VPN client events
+    - Detects: Suspicious or unauthorized VPN connections
+- System Integrity and Security Monitoring
+  - Microsoft-Windows-CodeIntegrity
+    - Monitors: Code and driver integrity
+    - Detects: Unsigned/malicious driver loads
+  - Microsoft-Windows-Security-Mitigations
+    - Monitors: Security control activity
+    - Detects: Bypass attempts of mitigation techniques
+  - Microsoft-Antimalware-Service
+    - Monitors: Antimalware operations
+    - Detects: Disabled protections, configuration tampering
+  - Microsoft-Antimalware-Protection
+    - Monitors: Antimalware protection mechanisms
+    - Detects: Evasion techniques, protection feature changes
+- Remote Access and Session Monitoring
+  - WinRM (Windows Remote Management)
+    - Monitors: Remote management activities
+    - Detects: Lateral movement, remote command execution
+  - Microsoft-Windows-TerminalServices-LocalSessionManager
+    - Monitors: RDP session activity
+    - Detects: Unauthorized/suspicious remote desktop connections
+
+YARA Rule Scanning on ETW (Using SilkETW)
+- What is SilkETW?
+  - An open-source tool designed for working with Event Tracing for Windows (ETW) data.
+  - Useful for: security monitoring, threat hunting and incident response
+- Key Features
+  - Provides enhanced visibility into Windows events.
+  - Supports detailed analysis of ETW data.
+  - Compatible with a wide variety of ETW providers (e.g., Kernel, PowerShell, DNS).
+- YARA Integration
+  - Allows YARA rules to be applied directly to ETW event streams.
+  - Use cases:
+    - Filter ETW events that match specific patterns.
+    - Tag suspicious events for further investigation.
+  - Enhances the detection of threats by combining behavioral event monitoring with signature-based matching.
+
+### Walkthrough
+Q1. Study the "C:\Rules\yara\shell_detector.yar" YARA rule that aims to detect "C:\Samples\MalwareAnalysis\shell.exe" inside process memory. Then, specify the appropriate hex values inside the "$sandbox" variable to ensure that the "Sandbox detected" message will also be detected. Enter the correct hex values as your answer. Answer format: Remove any spaces
