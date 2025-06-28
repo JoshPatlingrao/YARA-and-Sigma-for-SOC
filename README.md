@@ -360,3 +360,53 @@ Q1. Study the "C:\Rules\yara\shell_detector.yar" YARA rule that aims to detect "
 - It should only return one hit
 - Remove the spaces when answering.
 - Answer is: 53616E64626F78206465746563746564
+
+## Hunting Evil with YARA (Linux)
+### Notes
+Memory Forensics with YARA: Overcoming Access Limitations
+The Challenge: No Direct Access
+- Security Analysts often cannot directly access potentially compromised systems.
+  - Reasons: Organizational boundaries, permissions, or logistical limitations.
+- This situation is like knowing there's a fire but not being able to reach it.
+
+The Workaround: Memory Capture
+- Teams can obtain a memory dump (snapshot of a system's RAM) from the affected system.
+- Memory captures provide a full view of system activity at a point in time.
+- Analysts can investigate without needing physical access.
+
+The Solution: YARA on Memory Dumps
+- YARA can scan memory images for: malware, suspicious patterns, IOCs
+- Acts like x-ray vision, giving deep insight into system activity.
+
+Why This Matters
+- Ensures remote and inaccessible systems aren’t blind spots.
+- Enhances SOC capabilities for threat detection and investigation.
+- Shows how YARA enables proactive security analysis even under restrictions.
+
+Memory Scanning Process Overview
+- Create YARA Rules
+  - Develop your own rules or use existing ones targeting memory-based malware or behaviors.
+- Compile YARA Rules (Optional but Recommended)
+  - Use the 'yarac' tool to compile rules into a .yrc binary format.
+  - Benefits of compiling:
+    - Faster performance with large rule sets.
+    - Obfuscates rule content, adding a layer of protection.
+- Obtain a Memory Image
+  - Use memory capture tools like: DumpIt, MemDump, Magnet RAM Capture, Belkasoft RAM Capturer, FTK Imager, LiME (Linux)
+- Scan Memory with YARA
+  - Run the yara command with either:
+    - Compiled rules (.yrc) or
+    - Plain text rules (.yar)
+  - Scan the captured memory image to detect malware or anomalies.
+
+### Walkthrough
+Q1. Study the following resource https://blogs.vmware.com/security/2022/09/threat-report-illuminating-volume-shadow-deletion.html to learn how WannaCry performs shadow volume deletion. Then, use yarascan when analyzing "/home/htb-student/MemoryDumps/compromised_system.raw" to identify the process responsible for deleting shadows. Enter the name of the process as your answer.
+- SSH to the machine.
+- Open the link to the resource
+  - Look for the 'Table 1: Windows Utilities for VSCs' which will talk about the common utilities used for 'Living Off Land Binaries' technique.
+    - In this case this is the technique used.
+- Run the yarascan but replace UtilityName with one of the utilities in the table
+  - vol.py -f /home/htb-student/MemoryDumps/compromised_system.raw yarascan -U "UtilityName"
+- Only 1 will trigger the rule.
+- When it does, both of the hits shown will have the same 'process'
+- Answer is: @WanaDecryptor@
