@@ -505,3 +505,35 @@ How?
   - Sigma rules describe what to look for in logs.
   - A converter (like pySigma) translates that logic into a format your SIEM or log tool understands.
   - This streamlines detection rule development and allows easy sharing and re-use across environments.
+
+Sigma Rule Breakdown
+- title
+  - Purpose: A short, descriptive label for the rule.
+  - Requirement: Max 256 characters.
+  - Best Practice: Clearly state what the rule detects.
+- id
+  - Purpose: A globally unique identifier for the rule.
+  - Format: Typically a UUID v4 (e.g., a1b2c3d4-e5f6-7890-1234-56789abcdef0).
+  - Note: Not strictly mandatory but highly recommended.
+- logsource
+  - Defines the type of logs the rule applies to. It's key to contextualizing the detection logic.
+  - Includes:
+    - category: General class of product logs (e.g., firewall, web, antivirus).
+    - product: Specific product or OS (e.g., windows, apache, checkpoint fw1).
+    - service: Subcomponent of the product (e.g., sshd, security, applocker).
+    - definition: for further context or clarification.
+- detection
+  - This is the core logic of the rule — how Sigma determines a match.
+  - Search Identifiers: Key-value pairs representing field-value matches in logs.
+  - Condition: Boolean logic that defines how the identifiers should be evaluated.
+ 
+Sigame Rules
+- Values contained in Sigma rules can be modified by value modifiers
+- Modifiers are appended after the field name with a pipe character (|) as separator and can also be chained
+- Modifiers are applied in the given order to the value
+- Types (https://docs.blusapphire.io/sigma-rules/sigma-detection-attributes):
+  - contains: Adds wildcard (*) characters around the value(s)
+  - all: Links all elements of a list with a logical "AND" (instead of the default "OR")
+  - startswith: Adds a wildcard (*) character at the end of the field value
+  - endswith: Adds a wildcard (*) character at the begining of the field value
+  - re: This value is handled as regular expression by backends
