@@ -352,3 +352,11 @@ YARA Rule Scanning on ETW (Using SilkETW)
 
 ### Walkthrough
 Q1. Study the "C:\Rules\yara\shell_detector.yar" YARA rule that aims to detect "C:\Samples\MalwareAnalysis\shell.exe" inside process memory. Then, specify the appropriate hex values inside the "$sandbox" variable to ensure that the "Sandbox detected" message will also be detected. Enter the correct hex values as your answer. Answer format: Remove any spaces
+- RDP to the machine
+- Open the shelldetector.yar with note pad
+  - You can see $sandbox is empty
+- Open the shell.exe using hexeditor HxD
+- 'Ctrl + F' to run Find and type 'Sandbox detected' and click 'Search All'
+- It should only return one hit
+- Remove the spaces when answering.
+- Answer is: 53616E64626F78206465746563746564
