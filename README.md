@@ -527,7 +527,7 @@ Sigma Rule Breakdown
   - Search Identifiers: Key-value pairs representing field-value matches in logs.
   - Condition: Boolean logic that defines how the identifiers should be evaluated.
  
-Sigame Rules
+Sigma Rules
 - Values contained in Sigma rules can be modified by value modifiers
 - Modifiers are appended after the field name with a pipe character (|) as separator and can also be chained
 - Modifiers are applied in the given order to the value
@@ -537,3 +537,9 @@ Sigame Rules
   - startswith: Adds a wildcard (*) character at the end of the field value
   - endswith: Adds a wildcard (*) character at the begining of the field value
   - re: This value is handled as regular expression by backends
+
+Search Identifiers
+- Lists, which can contain:
+  - strings that are applied to the full log message and are linked with a logical OR.
+  - maps (see below). All map items of a list are linked with a logical OR.
+- Maps: Maps (or dictionaries) consist of key/value pairs, in which the key is a field in the log data and the value a string or integer value. All elements of a map are joined with a logical AND.
