@@ -543,3 +543,16 @@ Search Identifiers
   - strings that are applied to the full log message and are linked with a logical OR.
   - maps (see below). All map items of a list are linked with a logical OR.
 - Maps: Maps (or dictionaries) consist of key/value pairs, in which the key is a field in the log data and the value a string or integer value. All elements of a map are joined with a logical AND.
+
+### Walkthrough
+Q1. Using sigmac translate the "C:\Tools\chainsaw\sigma\rules\windows\builtin\windefend\win_defender_threat.yml" Sigma rule into the equivalent PowerShell command. Then, execute the PowerShell command against "C:\Events\YARASigma\lab_events_4.evtx" and enter the malicious driver as your answer. Answer format: _.sys
+- RDP to the machine
+- Run PowerShell as Admin
+- Change directory to the sigma tools to invoke sigmac
+  - cd C:\Tools\sigma-0.21\tools
+- Invoke sigmac on the Sigma rule to generate the PowerShell command
+  - python sigmac -t powershell 'C:\Tools\chainsaw\sigma\rules\windows\builtin\windefend\win_defender_threat.yml'
+- Run the PowerShell command against the captured events
+  - Get-WinEvent -Path C:\Events\YARASigma\lab_events_4.evtx | where {($_.ID -eq "1006" -or $_.ID -eq "1116" -or $_.ID -eq "1015" -or $_.ID -eq "1117") } | select TimeCreated,Id,RecordId,ProcessId,MachineName,Message
+- There is only one system driver
+- Answer is: mimidrv.sys
