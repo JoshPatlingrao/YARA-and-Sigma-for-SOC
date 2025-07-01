@@ -556,3 +556,26 @@ Q1. Using sigmac translate the "C:\Tools\chainsaw\sigma\rules\windows\builtin\wi
   - Get-WinEvent -Path C:\Events\YARASigma\lab_events_4.evtx | where {($_.ID -eq "1006" -or $_.ID -eq "1116" -or $_.ID -eq "1015" -or $_.ID -eq "1117") } | select TimeCreated,Id,RecordId,ProcessId,MachineName,Message
 - There is only one system driver
 - Answer is: mimidrv.sys
+
+## Hunting Evil with Sigma (Chainsaw Edition)
+### Notes
+Rapid Log Analysis Without a SIEM
+- Speed is critical in cybersecurity for timely threat detection and response.
+- Challenge: Searching through massive Windows Event Logs without a SIEM can be difficult and time-consuming.
+- Solution: Use Sigma rules with tools like Chainsaw and Zircolite.
+
+Benefits of Chainsaw & Zircolite
+- Allows scanning of multiple EVTX files at once.
+- Support Sigma rule integration for detection logic.
+- Enable efficient and comprehensive log analysis without relying on a SIEM.
+- Ideal for incident response and threat hunting in resource-limited environments.
+
+### Walkthrough
+Q1. Use Chainsaw with the "C:\Tools\chainsaw\sigma\rules\windows\powershell\powershell_script\posh_ps_win_defender_exclusions_added.yml" Sigma rule to hunt for suspicious Defender exclusions inside "C:\Events\YARASigma\lab_events_5.evtx". Enter the excluded directory as your answer.
+- RDP to the machine
+- Run PowerShell as Admin
+- Change directory to the chainsaw tools
+  - cd C:\Tools\chainsaw
+- Run the Chainsaw command
+  - .\chainsaw_x86_64-pc-windows-msvc.exe hunt C:\Events\YARASigma\lab_events_5.evtx -s C:\Tools\chainsaw\sigma\rules\windows\powershell\powershell_script\posh_ps_win_defender_exclusions_added.yml --mapping .\mappings\sigma-event-logs-all-new.yml
+- Answer is: c:\document\virus\
