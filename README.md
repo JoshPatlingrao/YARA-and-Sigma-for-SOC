@@ -611,5 +611,25 @@ Q1. Using sigmac translate the "C:\Rules\sigma\file_event_win_app_dropping_archi
   - There should only be 1 event that triggers the rules
 - Answer is: C:\Users\waldo\Downloads\20221108112718_BloodHound.zip
 
+## Skill Assessment
+Q1. The "C:\Rules\yara\seatbelt.yar" YARA rule aims to detect instances of the "Seatbelt.exe" .NET assembly on disk. Analyze both "C:\Rules\yara\seatbelt.yar" and "C:\Samples\YARASigma\Seatbelt.exe" and specify the appropriate string inside the "$class2" variable so that the rule successfully identifies "C:\Samples\YARASigma\Seatbelt.exe". Answer format: L________r
+- RDP to the machine
+- Open the YARA rule with NotePad and confirm that the '$class2' is empty
+- Change directory to run 'strings'
+  - cd C:\Tools\sysinternals
+- Run 'strings' to find all possible text in Seatbelt.exe that start with 'L' and end with 'r'
+  - strings C:\Samples\YARASigma\Seatbelt.exe | findstr /R "^L.*r$"
+- Change the '$class2' value with one of the words, save, and run it against the captured events
+  - Change to this directory to access YARA
+    - cd C:\ProgramData\chocolatey\lib\yara\tools
+  - Run YARA
+    - yara64.exe -s c:\Rules\yara\seatbelt.yar c:\Samples\YARASigma\Seatbelt.exe -r 2>null
+      - It should say that seatbelt is detected if the '$class2' value is correct
+- Answer is: LsaWrapper
 
-
+Q2. Use Chainsaw with the "C:\Tools\chainsaw\sigma\rules\windows\powershell\powershell_script\posh_ps_susp_win32_shadowcopy.yml" Sigma rule to hunt for shadow volume deletion inside "C:\Events\YARASigma\lab_events_6.evtx". Enter the identified ScriptBlock ID as your answer.
+- Change directory to 'chainsaw'
+  - cd C:\Tools\chainsaw
+- Run 'chainsaw'
+  - .\chainsaw_x86_64-pc-windows-msvc.exe hunt C:\Events\YARASigma\lab_events_6.evtx -s C:\Tools\chainsaw\sigma\rules\windows\powershell\powershell_script\posh_ps_susp_win32_shadowcopy.yml --mapping .\mappings\sigma-event-logs-all-new.yml
+- Answer is: faaeba08-01f0-4a32-ba48-bd65b24afd28
