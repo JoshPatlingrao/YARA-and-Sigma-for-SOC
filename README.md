@@ -579,3 +579,37 @@ Q1. Use Chainsaw with the "C:\Tools\chainsaw\sigma\rules\windows\powershell\powe
 - Run the Chainsaw command
   - .\chainsaw_x86_64-pc-windows-msvc.exe hunt C:\Events\YARASigma\lab_events_5.evtx -s C:\Tools\chainsaw\sigma\rules\windows\powershell\powershell_script\posh_ps_win_defender_exclusions_added.yml --mapping .\mappings\sigma-event-logs-all-new.yml
 - Answer is: c:\document\virus\
+
+## Hunting Evil with Sigma (Splunk  Edition)
+### Notes
+Sigma: The Rosetta Stone for SIEMs
+- Sigma rules transform how we conduct log analysis and threat detection.
+- Think of Sigma as a universal translator for event logs—removing the need to learn SIEM-specific query languages (e.g., Splunk SPL, Elastic DSL, etc.).
+- This abstraction layer simplifies writing and sharing detection logic across various platforms.
+
+Validation via Conversion
+- You can convert Sigma rules into formats like Splunk SPL to test and validate their effectiveness.
+- Comparing original Sigma logic to converted SIEM queries helps verify that:
+  - The rules are accurate.
+  - The detections behave as intended.
+
+### Walkthrough
+Q1. Using sigmac translate the "C:\Rules\sigma\file_event_win_app_dropping_archive.yml" Sigma rule into the equivalent Splunk search. Then, navigate to http://[Target IP]:8000, open the "Search & Reporting" application, and submit the Splunk search sigmac provided. Enter the TargetFilename value of the returned event as your answer.
+- Open machine from previous section [Hunting Evil with Sigma (Chainsaw Edition)]
+- RDP to machine
+- Run PowerShell as Admin
+- Change directory to the sigma tools to invoke sigmac
+  - cd C:\Tools\sigma-0.21\tools
+- Run sigmac to generate a Splunk query version of the rules
+  - python sigmac -t splunk C:\Rules\sigma\file_event_win_app_dropping_archive.yml -c .\config\splunk-windows.yml
+- Copy the output to a Notepad
+  - ((Image="*\\winword.exe" OR Image="*\\excel.exe" OR Image="*\\powerpnt.exe" OR Image="*\\msaccess.exe" OR Image="*\\mspub.exe" OR Image="*\\eqnedt32.exe" OR Image="*\\visio.exe" OR Image="*\\wordpad.exe" OR Image="*\\wordview.exe" OR Image="*\\certutil.exe" OR Image="*\\certoc.exe" OR Image="*\\CertReq.exe" OR Image="*\\Desktopimgdownldr.exe" OR Image="*\\esentutl.exe" OR Image="*\\finger.exe" OR Image="*\\notepad.exe" OR Image="*\\AcroRd32.exe" OR Image="*\\RdrCEF.exe" OR Image="*\\mshta.exe" OR Image="*\\hh.exe" OR Image="*\\sharphound.exe") (TargetFilename="*.zip" OR TargetFilename="*.rar" OR TargetFilename="*.7z" OR TargetFilename="*.diagcab" OR TargetFilename="*.appx"))
+- Open a new machine in the current section [Hunting Evil with Sigma (Splunk  Edition)]
+- Open FireFox and go to Splunk
+  - http://[Target IP]:8000
+- Click 'Search & Reporting', paste the generated Splunk query and set the range to 'All Time'
+  - There should only be 1 event that triggers the rules
+- Answer is: C:\Users\waldo\Downloads\20221108112718_BloodHound.zip
+
+
+
